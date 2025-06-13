@@ -69,10 +69,17 @@ def generate_launch_description():
         )
 
     # Low-level gazebo controller node
+    # low_level_controller = Node(
+    #     package="smb_low_level_controller_gazebo",
+    #     executable="smb_low_level_controller_gazebo_node",
+    #     name="smb_low_level_controller_gazebo_node",
+    #     output="screen",
+    #     parameters=[{"use_sim_time": False}],
+    # )
     low_level_controller = Node(
-        package="smb_low_level_controller_gazebo",
-        executable="smb_low_level_controller_gazebo_node",
-        name="smb_low_level_controller_gazebo_node",
+        package="smb_low_level_controller",
+        executable="speed_control_node",
+        name="speed_control_node",
         output="screen",
         parameters=[{"use_sim_time": False}],
     )
@@ -217,19 +224,19 @@ def generate_launch_description():
         robot_state_publisher_node,
         rslidar,
         kinematics_controller,
-        # low_level_controller,
+        low_level_controller,
         # joy_to_cmd_vel,
         # joy,
-        # terrain_analysis,
-        # terrain_analysis_ext,
+        terrain_analysis,
+        terrain_analysis_ext,
         # teleop_twist_joy_launch,
         dlio_launch,
-        # local_odometry,
-        # static_tf_map_to_odom,
+        local_odometry,
+        static_tf_map_to_odom,
         # far_planner_launch,
-        # local_planner_launch,
-        # twist_pid,
-        # config_topics,
-        # twist_mux,
+        local_planner_launch,
+        twist_pid,
+        config_topics,
+        twist_mux,
         # rviz2,
     ])

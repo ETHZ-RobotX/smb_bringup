@@ -19,10 +19,11 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument as LaunchArg
 from launch.actions import OpaqueFunction
 from launch.substitutions import LaunchConfiguration as LaunchConfig
-from launch.substitutions import PathJoinSubstitution
+from launch.substitutions import PathJoinSubstitution, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
+import os
 
 blackfly_s_param = {
     'debug': False,
@@ -67,6 +68,14 @@ def launch_setup(context, *args, **kwargs):
     """Launch camera driver node."""
     parameter_file = LaunchConfig('parameter_file').perform(context)
     camera_type = LaunchConfig('camera_type').perform(context)
+    # robot_id = os.environ.get('ROBOT_ID', '000')
+    robot_id = '261'
+    calibration_file = PathJoinSubstitution(
+        [FindPackageShare('smb_bringup'), 'config', 'smb' + robot_id + '_cam0.yaml']
+    )
+    
+    calibration_file_url = 'file://' + calibration_file.perform(context)
+    
     if not parameter_file:
         parameter_file = PathJoinSubstitution(
             [FindPackageShare('spinnaker_camera_driver'), 'config', camera_type + '.yaml']
@@ -82,6 +91,7 @@ def launch_setup(context, *args, **kwargs):
                 'ffmpeg_image_transport.encoding': 'hevc_nvenc',
                 'parameter_file': parameter_file,
                 'serial_number': [LaunchConfig('serial')],
+                'camerainfo_url': calibration_file_url,
             },
         ],
         remappings=[

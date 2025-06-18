@@ -83,6 +83,16 @@ def generate_launch_description():
         output="screen",
         parameters=[{"use_sim_time": False}],
     )
+
+    # low_level_controller = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource([
+    #         PathJoinSubstitution([
+    #             FindPackageShare("smb_low_level_controller"),
+    #             "launch",
+    #             "speed_control_node.launch.py"
+    #         ])
+    #     ]),
+    # )
     
     joy_to_cmd_vel = Node(
         package="smb_kinematics",
@@ -218,15 +228,25 @@ def generate_launch_description():
             {'use_sim_time': False},
             LaunchConfiguration('config_topics')]
     )
+
+    wheel_odometry = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+                FindPackageShare("smb_wheel_odometry"),
+                "launch",
+                "wheel_odometry_real.launch.py"
+            ])
+        ]),
+    )
     
     return LaunchDescription([
         # gazebo_launch,
         robot_state_publisher_node,
-        rslidar,
+        # rslidar,
         kinematics_controller,
-        # low_level_controller,
+        low_level_controller,
         # joy_to_cmd_vel,
-        joy,
+        # joy,
         # terrain_analysis,
         # terrain_analysis_ext,
         # teleop_twist_joy_launch,
@@ -238,5 +258,6 @@ def generate_launch_description():
         # twist_pid,
         config_topics,
         twist_mux,
-        rviz2,
+        # rviz2,
+        # wheel_odometry,
     ])

@@ -68,8 +68,7 @@ def launch_setup(context, *args, **kwargs):
     """Launch camera driver node."""
     parameter_file = LaunchConfig('parameter_file').perform(context)
     camera_type = LaunchConfig('camera_type').perform(context)
-    # robot_id = os.environ.get('ROBOT_ID', '000')
-    robot_id = '261'
+    robot_id = os.environ.get('ROBOT_ID', '000')
     calibration_file = PathJoinSubstitution(
         [FindPackageShare('smb_bringup'), 'config', 'smb' + robot_id + '_cam0.yaml']
     )

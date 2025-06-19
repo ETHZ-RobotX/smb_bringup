@@ -76,23 +76,23 @@ def generate_launch_description():
     #     output="screen",
     #     parameters=[{"use_sim_time": False}],
     # )
-    low_level_controller = Node(
-        package="smb_low_level_controller",
-        executable="speed_control_node",
-        name="speed_control_node",
-        output="screen",
-        parameters=[{"use_sim_time": False}],
-    )
-
-    # low_level_controller = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource([
-    #         PathJoinSubstitution([
-    #             FindPackageShare("smb_low_level_controller"),
-    #             "launch",
-    #             "speed_control_node.launch.py"
-    #         ])
-    #     ]),
+    # low_level_controller = Node(
+    #     package="smb_low_level_controller",
+    #     executable="speed_control_node",
+    #     name="speed_control_node",
+    #     output="screen",
+    #     parameters=[{"use_sim_time": False}],
     # )
+
+    low_level_controller = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+                FindPackageShare("smb_low_level_controller"),
+                "launch",
+                "speed_control_node.launch.py"
+            ])
+        ]),
+    )
     
     joy_to_cmd_vel = Node(
         package="smb_kinematics",

@@ -18,14 +18,37 @@ def generate_launch_description():
                 ])
             ),
             launch_arguments={
-                'serial': "'20010195'" # for Jetson only
+                'serial': "'20023237'" # for Jetson only
             }.items()
         )
     ])
 
+    container = ComposableNodeContainer(
+        name='image_proc_container',
+        namespace='rgb_camera',
+        package='rclcpp_components',
+        executable='component_container',
+        composable_node_descriptions=[
+            ComposableNode(
+                package='image_proc',
+                plugin='image_proc::DebayerNode',
+                name='debayer_node',
+                remappings=[
+                    ('image_raw', 'rgb_camera/image_raw'),
+                    ('image_color', 'rgb_camera/image_debayered')
+                ]
+            )
+        ],
+        output='screen',
+        parameters=[
+                {"use_sim_time": False},
+            ],
+    )
+
 
     return LaunchDescription(
         [
-            rgb_camera_group
+            rgb_camera_group,
+            container
         ]
     )

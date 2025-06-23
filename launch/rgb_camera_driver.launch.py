@@ -32,7 +32,8 @@ blackfly_s_param = {
     'dump_node_map': False,
     # set parameters defined in blackfly_s.yaml
     'gain_auto': 'Continuous',
-    'pixel_format': 'BayerRG8',
+    # 'pixel_format': 'BayerRG8',
+    'pixel_format': 'RGB8',
     'exposure_auto': 'Continuous',
     # to use a user set, do this:
     # 'user_set_selector': 'UserSet0',
@@ -107,7 +108,7 @@ def generate_launch_description():
         [
             LaunchArg(
                 'camera_name',
-                default_value=['flir_camera'],
+                default_value=['rgb_camera'],
                 description='camera name (ros node name)',
             ),
             LaunchArg(
